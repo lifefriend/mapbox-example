@@ -2,6 +2,7 @@
 <template>
   <div id="first-map">
     <div id="mouse-position"></div>
+    <MiniMap :mapApp="mapApp" />
   </div>
 </template>
 
@@ -9,8 +10,13 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapbox from 'mapbox-gl';
 
+import MiniMap from './MiniMap';
+
 export default {
   name: 'Map',
+  components: {
+    MiniMap,
+  },
   data() {
     return {
       mapApp: null,
@@ -22,7 +28,7 @@ export default {
     const mapApp = new mapbox.Map({
       container: 'first-map',
       style: 'mapbox://styles/mapbox/streets-v9',
-      center: [120.57229, 31.28505],
+      center: [114.318312, 30.47259],
       zoom: 9,
     });
 
@@ -46,8 +52,7 @@ export default {
     //添加导航控件，控件的位置包括'top-left', 'top-right','bottom-left' ,'bottom-right'四种，默认为'bottom-left'
     mapApp.addControl(scale, 'bottom-left');
 
-    // 鼠标位置
-    // 注册鼠标移动事件
+    //注册鼠标移动事件
     mapApp.on('mousemove', function(e) {
       document.getElementById('mouse-position').innerHTML =
         '经度：' +
@@ -55,7 +60,6 @@ export default {
         '，纬度：' +
         e.lngLat.lat.toFixed(2);
     });
-
     this.mapApp = mapApp;
   },
 };
