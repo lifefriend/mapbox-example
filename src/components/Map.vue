@@ -10,6 +10,9 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapbox from 'mapbox-gl';
 
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+
 import MiniMap from './MiniMap';
 
 export default {
@@ -52,6 +55,31 @@ export default {
     });
     //添加导航控件，控件的位置包括'top-left', 'top-right','bottom-left' ,'bottom-right'四种，默认为'bottom-left'
     mapApp.addControl(scale, 'bottom-left');
+
+    //添加绘制控件
+    const draw = new MapboxDraw({
+      //不允许使用键盘交互绘制
+      keybindings: false,
+      //设置为ture，可按住shift+拉框来拾取图形
+      boxSelect: true,
+      //点击要素时的响应半径（像素单位）
+      clickBuffer: 5,
+      //默认控件显示方式。如果设置为true，则会添加所有的绘图控件
+      displayControlsDefault: false,
+      //添加指定的绘制控件
+      controls: {
+        //绘制线控件
+        line_string: true,
+        //绘制多边形控件
+        polygon: true,
+        //绘制点控件
+        point: true,
+        //删除图形控件
+        trash: true,
+      },
+    });
+    //将绘制控件添加到左上角
+    mapApp.addControl(draw, 'top-left');
 
     //注册鼠标移动事件
     mapApp.on('mousemove', function(e) {
