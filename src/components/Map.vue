@@ -1,6 +1,8 @@
 <!--主地图-->
 <template>
-  <div id="first-map"></div>
+  <div id="first-map">
+    <div id="mouse-position"></div>
+  </div>
 </template>
 
 <script>
@@ -43,6 +45,16 @@ export default {
     });
     //添加导航控件，控件的位置包括'top-left', 'top-right','bottom-left' ,'bottom-right'四种，默认为'bottom-left'
     mapApp.addControl(scale, 'bottom-left');
+
+    // 鼠标位置
+    // 注册鼠标移动事件
+    mapApp.on('mousemove', function(e) {
+      document.getElementById('mouse-position').innerHTML =
+        '经度：' +
+        e.lngLat.lng.toFixed(2) +
+        '，纬度：' +
+        e.lngLat.lat.toFixed(2);
+    });
 
     this.mapApp = mapApp;
   },
