@@ -27,6 +27,7 @@ export default {
       'pk.eyJ1IjoibWFyc2dpcyIsImEiOiJja2Fod2xlanIwNjJzMnhvMXBkMnNqcjVpIn0.WnxikCaN2KV_zn9tLZO77A';
     const mapApp = new mapbox.Map({
       container: 'first-map',
+      //设置地图样式信息
       style: 'mapbox://styles/mapbox/streets-v9',
       center: [114.318312, 30.47259],
       zoom: 9,
