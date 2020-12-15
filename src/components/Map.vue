@@ -13,6 +13,8 @@ import mapbox from 'mapbox-gl';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
+import turf from 'turf';
+
 import MiniMap from './MiniMap';
 
 export default {
@@ -80,6 +82,50 @@ export default {
     });
     //将绘制控件添加到左上角
     mapApp.addControl(draw, 'top-left');
+
+    /**绘制完成事件(测量)
+     *  @param {string} type 事件类型（绘制完成）
+     *  @param {function} fn 事件触发后的响应函数
+     */
+    mapApp.on('draw.create', (e) => {
+      //绘制的图形类型
+      var type = e.features[0].geometry.type;
+      let coords = null;
+      let popPosition = null;
+      //判断类型
+      switch (type) {
+        //线类型
+        case 'LineString':
+          //获取线的几何
+          var linestring = e.features[0].geometry;
+          //调用turf的距离计算方法，计算长度
+          var wholeLength = turf.lineDistance(linestring) + 'km';
+          //获取折线对象的最后一个点坐标
+          coords = e.features[0].geometry.coordinates;
+          popPosition = coords[coords.length - 1];
+          //在该位置添加Popup弹框，显示长度（单位千米）
+          new mapbox.Popup({ closeOnClick: false })
+            .setLngLat(popPosition)
+            .setHTML('<b>长度为：' + wholeLength + '</b>')
+            .addTo(mapApp);
+          break;
+        //多边形类型
+        case 'Polygon':
+          //获取多边形几何
+          var polygonArea = e.features[0].geometry;
+          //调用turf的面积计算方法，计算面积
+          var area = turf.area(polygonArea) / 1000000 + '平方公里';
+          //获取多边形对象的最后一个点坐标
+          coords = e.features[0].geometry.coordinates[0];
+          popPosition = coords[coords.length - 2];
+          //在该位置添加Popup弹框，显示面积
+          new mapbox.Popup({ closeOnClick: false })
+            .setLngLat(popPosition)
+            .setHTML('<b>面积为：' + area + '</b>')
+            .addTo(mapApp);
+          break;
+      }
+    });
 
     //注册鼠标移动事件
     mapApp.on('mousemove', function(e) {
