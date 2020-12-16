@@ -1,3 +1,5 @@
+import { from } from "core-js/fn/array";
+import { genID } from './util'
 /**添加点至地图中显示
 */
 export function addPoint(map) {
@@ -106,8 +108,4 @@ export function addPolygon(map) {
     }
   });
   return PolygonId;
-}
-
-function genID() {
-  return Math.random().toString(36).substr(3, length);
 }

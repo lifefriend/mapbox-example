@@ -1,32 +1,21 @@
 <!--主地图-->
 <template>
-  <div id="first-map">
-    <div id="mouse-position"></div>
-    <MiniMap :mapApp="mapApp" />
-  </div>
+  <div id="first-map"></div>
 </template>
 
 <script>
+import turf from 'turf';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapbox from 'mapbox-gl';
 
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-import turf from 'turf';
-
-import MiniMap from './MiniMap';
+import LngLat from '../plugin/lngLat';
+import MiniMap from '../plugin/miniMap';
 
 export default {
   name: 'Map',
-  components: {
-    MiniMap,
-  },
-  data() {
-    return {
-      mapApp: null,
-    };
-  },
   mounted() {
     mapbox.accessToken =
       'pk.eyJ1IjoibWFyc2dpcyIsImEiOiJja2Fod2xlanIwNjJzMnhvMXBkMnNqcjVpIn0.WnxikCaN2KV_zn9tLZO77A';
@@ -57,6 +46,12 @@ export default {
     });
     //添加导航控件，控件的位置包括'top-left', 'top-right','bottom-left' ,'bottom-right'四种，默认为'bottom-left'
     mapApp.addControl(scale, 'bottom-left');
+
+    // 添加显示经纬度控件
+    mapApp.addControl(new LngLat(), 'top-right');
+
+    // 鹰眼地图
+    mapApp.addControl(new MiniMap(mapbox.accessToken), 'bottom-right');
 
     //添加绘制控件
     const draw = new MapboxDraw({
@@ -126,16 +121,6 @@ export default {
           break;
       }
     });
-
-    //注册鼠标移动事件
-    mapApp.on('mousemove', function(e) {
-      document.getElementById('mouse-position').innerHTML =
-        '经度：' +
-        e.lngLat.lng.toFixed(2) +
-        '，纬度：' +
-        e.lngLat.lat.toFixed(2);
-    });
-    this.mapApp = mapApp;
   },
 };
 </script>
@@ -147,15 +132,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-#mouse-position {
-  top: 20px;
-  right: 20px;
-  color: blue;
-  position: absolute;
-  bottom: 5px;
-  z-index: 1;
-  font-size: 16px;
 }
 a.mapboxgl-ctrl-logo,
 .mapboxgl-ctrl-attrib {
