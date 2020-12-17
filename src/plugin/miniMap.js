@@ -1,6 +1,6 @@
 import turf from 'turf';
 import mapbox from 'mapbox-gl';
-import { genID } from './util'
+import { genID } from './util';
 
 /**
  * 自定义控件——鹰眼地图
@@ -32,10 +32,9 @@ export default class MiniMap {
   }
 
   onRemove() {
-    this._map.off('mousemove', this.update);
     this._el.parentNode.removeChild(this._el);
     this._map = null;
-    return this
+    return this;
   }
 
   initMap(container) {

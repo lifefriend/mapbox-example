@@ -14,6 +14,8 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import LngLat from '../plugin/lngLat';
 import MiniMap from '../plugin/miniMap';
 
+import Measure from '../plugin/measure';
+
 export default {
   name: 'Map',
   mounted() {
@@ -77,6 +79,9 @@ export default {
     });
     //将绘制控件添加到左上角
     mapApp.addControl(draw, 'top-left');
+
+    // 测量
+    mapApp.addControl(new Measure(), 'top-left');
 
     /**绘制完成事件(测量)
      *  @param {string} type 事件类型（绘制完成）
