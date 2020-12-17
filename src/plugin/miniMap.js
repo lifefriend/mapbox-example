@@ -46,10 +46,10 @@ export default class MiniMap {
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [114.318312, 30.47259],
       zoom: 5,
+      dragPan: false,
+      doubleClickZoom: false,
+      scrollZoom: false
     });
-    overView.scrollZoom.disable();
-    overView.dragPan.disable();
-
 
     this._overView = overView;
     this.initextent();

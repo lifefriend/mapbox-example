@@ -4,7 +4,7 @@ import turf from 'turf';
 import { genID } from './util';
 
 /**
- * 自定义控件——测量 https://cloud.tencent.com/developer/article/1618599
+ * 自定义控件——测量
  */
 const interactions = [
   'scrollZoom',
