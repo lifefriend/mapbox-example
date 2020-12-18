@@ -19,7 +19,7 @@ export default class LngLat {
     this._map.off('mousemove', this.update);
     this._el.parentNode.removeChild(this._el);
     this._map = null;
-    return this
+    return this;
   }
 
   bindEvent() {

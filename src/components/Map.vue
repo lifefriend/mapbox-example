@@ -19,15 +19,50 @@ import Measure from '../plugin/measure';
 export default {
   name: 'Map',
   mounted() {
-    mapbox.accessToken =
-      'pk.eyJ1IjoibWFyc2dpcyIsImEiOiJja2Fod2xlanIwNjJzMnhvMXBkMnNqcjVpIn0.WnxikCaN2KV_zn9tLZO77A';
+    mapbox.accessToken = '';
     const mapApp = new mapbox.Map({
       container: 'first-map',
       //设置地图样式信息
       style: 'mapbox://styles/mapbox/streets-v9',
+      // style: {
+      //   version: 8,
+      //   name: 'Dark',
+      //   sources: {
+      //     mapbox: {
+      //       type: 'vector',
+      //       url: 'mapbox://mapbox.mapbox-streets-v8',
+      //     },
+      //   },
+      //   sprite: 'mapbox://sprites/mapbox/dark-v10',
+      //   glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
+      //   layers: [],
+      // },
       center: [114.318312, 30.47259],
       zoom: 9,
     });
+
+    // mapApp.on('load', function() {
+    //   mapApp.addSource('streets-v9', {
+    //     type: 'vector',
+    //     url: 'mapbox://styles/mapbox/streets-v9',
+    //   });
+    //   mapApp.addLayer({
+    //     id: 'streets-v9',
+    //     type: 'vector',
+    //     source: 'streets-v9',
+    //     layout: {
+    //       visibility: 'visible',
+    //     },
+    //   });
+    // });
+
+    // setTimeout(() => {
+    //   var layers = mapApp.getStyle().layers;
+    //   for (var i = 0; i < layers.length; i++) {
+    //     console.log(layers[i]);
+    //     mapApp.setLayoutProperty(layers[i].id, 'visibility', 'none');
+    //   }
+    // }, 5000);
 
     //实例化导航控件
     const nav = new mapbox.NavigationControl({
